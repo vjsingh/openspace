@@ -8,23 +8,23 @@
         p.inline.pull-right
           strong#homepageTranscriptionCount
             = trCount
-          | &nbspTranscriptions,
+          | &nbspPosters,
           strong#homepageTranscriptionCount
             = userCount
           | &nbspUsers
-        p Looking for a jazz transcription? Look no further! Transcription Hub was created to allow jazz fans like you to share and discuss transcriptions of jazz solos. Countless transcriptions are scattered throughout the internet on blogs, forums, and personal websites; we hope to gather all of these into one searchable index of every jazz solo.
+        p Interested in decorating your room, or selling your art? Arter can help! Arter was created to connect artists at Brown University with other students who want to buy their art. Incredible art is made all over campus every day, and yet students buy the same crappy posters year after year. We're on a mission to fix this.
         p
           - if (typeof(user) !== 'undefined' && user && user.username)
             a.btn.btn-primary.btn-large(href='/browse') Browse Transcriptions Now &raquo;
           - else
             a.btn.btn-primary.btn-large(href='/register') Register Now &raquo;
-  .row-fluid
+  .row-fluid.introText
     .span4
-      h2 Request Transcriptions!
-      p Upload Transcriptions (or even just online links to transcriptions), get upvotes, then request any transcription you want that we don't have! Or, fill someones elses transcription to get lots of karma points! Every transcription is rated according to a simple Up/Down voting system. A transcriptions score is simply its upvotes minus its downvotes, letting you easily find the most accurate transcriptions. Uploaders are granted Karma points for every upvote, which they can use to request new transcriptions.
+      h2 Unique, original posters
+      p Every poster sold on Arter is produced by a Brown or RISD student. The posters are reproductions of the art that students produce, for classes or otherwise. Support student artists!
     .span4
-      h2 Upload PDFs or links
-      p We understand that not everyone has the time to create new transcriptions, and that numerous transcriptions are already available on the web, so in addition to PDFs hosted on Transcription Hub itself, we also allow you to post links to other sites! By doing this, we hope to become the place to come to if you want to search for transcriptions posted all over the internet.
+      h2 Make a name for yourself
+      p Arter lets you market yourself as an artist by giving you a place to establish your presence online. Build up your portfolio online, and let the world know how popular and beautiful your art is.
     .span4
-      h2 30 Second Registration
-      p Only registered users can vote and comment on transcriptions. This prevents gaming of the Karma system, and helps create an active community of transcribers. You get a personal profile where you can keep track of all your uploaded transcriptions, and include a link back to your blog or personal website. <strong>Registration, and all uploaded transcriptions, will always be free and open to all. </strong> Register now with our secure, 30 second registration form!
+      h2 Unique discovery system
+      p Arter tries to surface new, original art, and for this reason you cannot sort posters by popularity or rating. Rating posters is good though, since it lets us give you better poster recommendations.

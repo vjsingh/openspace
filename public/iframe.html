@@ -1,0 +1,15 @@
+<html>
+<body id='iframeBody'>
+</body>
+<script src='https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js'>
+</script>
+<script>
+top.GLOBAL_sendFormData = function() {
+  console.log("ASD");
+  $('#uploadForm', window.parent.document).clone().appendTo('body');
+  //document.body.uploadForm.submit();
+  $('#uploadForm').submit();
+}
+</script>
+</html>
+

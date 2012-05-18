@@ -10,11 +10,11 @@ html, body{
 }
 
 body {
-  background-image:url('/bs.png');
+  //background-image:url('/bs.png');
   //background-image:url('/brushed_alu.png');
 }
 
-.stretchedToMargin {
+.stretchedToMargin() {
   position: absolute;
   height: auto;
   bottom: 0;
@@ -24,369 +24,38 @@ body {
 }
 
 #entire-page {
+  .stretchedToMargin();
   min-width: 940px;
-  position: relative;
-  margin:0 auto;
-  height: auto !important;
-  height: 100%; // for IE6?
-  min-height: 100%;
+  //position: relative;
+  //margin:0 auto;
+  //height: auto !important;
+  //height: 100%; // for IE6?
+  //min-height: 100%;
   //padding-top: @topBarHeight;
   //background-color: #eee;
 }
 
-.content {
-  //min-width: 80%;
+.signupHeader {
+  font-weight: bold;
 }
 
-#entire-page-minus-footer {
-  height: 100%;
-  padding-bottom: 10em;
-}
-.welcomeText {
-  width: 76%;
-}
-
-/*
-+  margin: 0;
-+  position:absolute;
-+  bottom:0;
-+  height:40px;
-*/
-#footer {
-  color: #767676;
-  background-color: #252525;
-  padding: 15px 0 15px 0;
-
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  a:visited {
-    //color: #444;
-    color: #999;
-  }
-  a {
-    color: #999;
-  }
-}
-
-.navbar .container-fluid {
-  min-width: 0px;
-}
-
-.navbar {
-  #username {
-    margin-left: 5px;
-  }
-}
-
-#password-clear {
-  margin-left: 5px;
-}
-
-#password-password {
-  display: none;
-  margin-left: 5px;
-}
-
-#logoTopbar {
-  padding-top: 2px;
-}
-
-.container-fluid {
-  > .sidebar {
-    //width: @sidebarWidth;
-    //left: @sidebarMargin;
-    min-height: 100%;
-    background: whitesmoke;
-    > .well {
-      min-height: 100%;
-      > .search-pane {
-        min-height: 100%;
-      }
-    }
-  }
-}
-
-.select-auto-width {
-  width: auto;
-}
-
-
-// For Form Validation
-
-.center-content {
-  // TODO display in middle
-  //margin-left: 50%;
-  margin-left: auto;
-  margin-right: auto;
-  //width: 60%;
-  //position: relative;
-  //float: left;
-}
-#uploadForm {
-  //width: 50%;
-  //margin: 0px auto;
-  //jwidth: auto;
-  //padding-left: 50px;
-  label.error{
-    float: none;
-    color: red;
-    padding-left: .5em;
-    vertical-align: top;
-  }
-}
-
-.numKarmaSearch {
-  padding-left: 5px;
-  padding-bottom: 3px;
-  text-align: center;
-}
-.numVotes .numPointsBountySearch{
-  margin-left: 3px;
-  padding-bottom: 5px;
-  font-size: 20px;
-}
-
-.search-result-fields {
-  //font-size: @basefont;
-  //width: 106px;
-  word-wrap: break-word;
-}
-
-#uploadDisclaimer {
-  margin-left: 100px;
-}
-
-#login {
-  label.error {
-    float: bottom;
-    color: red;
-    padding-top: .5em;
-  }
-}
-
-#loginTopBar.error input {
-  border: solid 1px red;
-}
-
-.registerField {
-  margin-bottom: 18px;
-}
-
-.navbar-inner {
-  a {
-    color: #BFBFBF;
-  }
-}
-
-.brand {
-  //height: 40px;
-  padding: 0px !important;
-  padding-bottom: 0px !important;
-  line-height: 0px !important;
-  img {
-  }
-  .text {
-    position:relative;
-    top:-15px;
-    right:-35px;
-    padding-right:40px;
-  }
-}
-
-
-.votesArrows {
-  width: 20px;
-}
-
-.trSongInfoDisplay {
-  line-height: 1.5em;
-}
-
-#username {
-  width:100px;
-}
-#password {
-  width:100px;
-}
-
-#logout {
-  margin-left: 5px;
-}
-
-#searchSidebar {
-  input {
-    margin-bottom: 5px;
-    //width: @sidebarWidth - 35px;
-    width: 100%;
-  }
-}
-
-// Boxes in search results
-.search-box {
-  padding-left: 5px;
-  margin-left: 5px;
-  margin-top: 0px;
-  margin-bottom: 3px;
-  width: 86%;
-}
-
-.search-box.active {
-  box-shadow: inset 0 1px 2px black;
-}
-
-.search-pane {
-  //width: 200px;
-  width: 100%;
-  height: 400px;
-  overflow: auto;
-}
-
-#uploadedByUsername {
-  display: inline;
-}
-
-.width50 {
-  width: 50%;
-}
-.width70 {
-  width: 70%;
-}
-
-.trDisplay {
-  //height: 100%;
-}
-
-.trDisplayInfo {
-  padding-top: 10px;
-}
-
-.trDescription {
-  padding-top: 5px;
-  padding-bottom: 5px;
-}
-
-.trComments {
-  min-height: 100%;
-}
-.trPdfParent {
-  height: 100%;
-  overflow: hidden;
+#title {
   position: relative;
+  margin-top: 20px;
+  left: 20%;
+  right: 80%;
 }
 
-.bounty-display {
-  position: relative;
-  top: 10px;
-}
-.display-points {
-  // TODO Change to be @blueDark
-  color: #0064cd;
-  font-size: 50px;
-  padding-right: 20px;
-  display: inline;
-  padding-bottom: 20px;
-  margin-top: 40px;
-}
-.profile-info .display-points{
-  //margin-top: 90px;
-  position: relative;
-  top: 5px;
-}
-
-.bountyFulfilledTr {
-  padding-top: 15px;
-  font-size: 22px;
-}
-
-#homepageTranscriptionCount {
-  color: #0064cd;
-  font-size: 40px;
-}
-
-.floatRight {
-  float: right;
-}
-
-.alert {
-  width: 80%;
-}
-
-.content-box {
-  width: auto;
-  margin-left: 10px;
-  padding-left: 10px;
-  padding-top: 5px;
-  padding-bottom: 1px;
-  background: whitesmoke;
-}
-
-.box-with-shadow {
-  -moz-box-shadow: 10px 10px 5px #888;
-  -webkit-box-shadow: 10px 10px 5px #888;
-  box-shadow: 10px 10px 5px #888;
-}
-.hero-box-with-shadow {
-  -moz-box-shadow: 20px 20px 5px #888;
-  -webkit-box-shadow: 20px 20px 5px #888;
-  box-shadow: 20px 20px 5px #888;
-}
-.bounty-display-info {
-  padding-top: 15px;
-  line-height: 1.2em;
-}
-
-.bountyInfoAddForm {
-  padding-top: 15px;
-}
-
-.inline {
-  display: inline;
-}
-
-// Profile
-.profile-info {
-  margin-left: auto;
-  margin-right: auto;
-  width: 70%;
-}
-
-#profTranscriptions {
-  padding-top: 20px;
-}
-
-.display-points-text {
-  font-size: 25px;
-  display: inline;
-}
-
-.actions {
-  background: transparent;
-}
-
-.hero-unit {
-  color: white !important;
-   margin-top: 20px;
-   //background-color: #f5f5f5;
-   background-color: #6E6E6E;
-  .myH1 {
-    font-size: 60px;
-    line-height: 1;
-    letter-spacing: -1px;
+#signup1 {
+  margin-top: 5%;
+  margin-left: 25%;
+  width: 30%;
+  .signupText {
+    margin-top: 10px;
+  }
+  #emailForm {
+    margin-top: 20px;
   }
 }
 
-.privacyList {
-  li {
-    color: white;
-    font-size: 18px;
-  }
-}
-.saxIconLarge {
-  position: relative;
-  top: 10px;
-  left: 20px;
-}
 
-.hero-unit {
-}

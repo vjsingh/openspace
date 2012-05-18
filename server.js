@@ -9,12 +9,14 @@ var express = require('express'),
   sanitize = require('validator').sanitize,
   app = module.exports = express.createServer(),
   mongoose = require('mongoose'),
-  mongoStore = require('connect-mongo'),
+  mongoStore = require('connect-mongo')(express),
   models = require('./models'),
   stylus = require('stylus'),
   siteConf = require('./lib/getConfig'),
   fs = require('fs'),
   path = require('path'),
+  crypto = require('crypto'),
+  mime = require('mime-magic'),
   db,
   Transcription, User, LoginToken, Bounty;
   //routes = require('./routes')
@@ -30,16 +32,17 @@ var TRANSCRIPTION_FILE_DIR = '/mongodb/transcriptions/';
 var serverDir;
 if (IS_LOCAL_MACHINE) {
   serverDir = '/Users/Varun/Documents/workspace/jazz/jazz/';
+  process.chdir(serverDir);
 } else {
   serverDir = '/var/jazz/';
 }
-process.chdir(serverDir);
 
 function getIsFirefox(req) {
   return (/firefox/i).test(req.headers['user-agent']);
 }
 app.configure(function(){
-  app.set('db-uri', 'mongodb://localhost/' + siteConf.dbName);
+  //app.set('db-uri', 'mongodb://localhost/' + siteConf.dbName);
+  app.set('db-uri', 'mongodb://nodejitsu:be8725eaf1cb68e7a129cebf81f66480@staff.mongohq.com:10095/nodejitsudb992359367398');
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
   // set pretty to false for editable fields in transcriptionDisplay
@@ -59,8 +62,11 @@ app.configure(function(){
   app.use(express.cookieParser());
   app.use(express.session({
     store: new mongoStore({
-      db: siteConf.dbName,
-      host: 'localhost'
+      db: "nodejitsudb992359367398",
+      port: 10095,
+      host: "staff.mongohq.com",
+      username: 'nodejitsu',
+      password: 'be8725eaf1cb68e7a129cebf81f66480'
     }),
     secret: siteConf.sessionSecret,
     maxAge: new Date(Date.now() + 3600000)
@@ -112,6 +118,9 @@ app.configure('development', function(){
 
 app.configure('production', function(){
   app.use(express.logger());
+  // TODO take out
+  app.use(express.errorHandler({
+    dumpExceptions: true, showStack: true }));
   //app.use(express.errorHandler());
 });
 
@@ -214,13 +223,60 @@ function validateErr(req, res, next) {
 }
 
 app.listen(3000);
-console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
+//console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
 
 
 
 //**********************************
 // Routes
 //**********************************
+
+var createS3Policy;
+var s3Signature;
+var s3Credentials;
+
+createS3Policy = function( mimetype, callback ) {
+  var s3PolicyBase64, _date, _s3Policy;
+  _date = new Date();
+  var localTime = _date.getTime();
+  var localOffset = _date.getTimezoneOffset() * 60000;
+  _date = new Date(localTime + localOffset);
+  var redirect = ' ';
+  s3Policy = {
+    "expiration": "" + (_date.getFullYear()) + "-" + (_date.getMonth() + 1) + "-" + (_date.getDate()) + "T" + (_date.getHours() + 1) + ":" + (_date.getMinutes()) + ":" + (_date.getSeconds()) + "Z",
+    "conditions": [
+      { "bucket": "whitewalls" },
+      //["starts-with", "$Content-Disposition", ""],
+      ["starts-with", "$key", "to-review/"],
+      { "acl": "public-read" },
+      //{ "success_action_redirect": redirect},
+      { "success_action_status": '201'},
+      ["content-length-range", 0, 2147483648],
+      ["eq", "$Content-Type", mimetype]
+    ]
+  };
+
+  s3PolicyBase64 = new Buffer( JSON.stringify( s3Policy ) ).toString( 'base64' );
+  s3Credentials = {
+    s3KeyId: "AKIAJSQCIZ6FUDJQJ4FQ",
+    s3Signature: crypto.createHmac( "sha1", "Ks/T8EzO1sIEej8fasNYyFQpemnsZgdpZFp9UF9X" ).update(s3PolicyBase64).digest( "base64" ),
+    s3PolicyBase64: s3PolicyBase64,
+    s3Policy: s3Policy,
+
+    //s3Redirect: redirect,
+    s3RedirectStatus: '201',
+    s3Acl: "public-read",
+    s3ContentType: mimetype,
+    s3Key: 'to-review/asdfa'
+  };
+  callback( s3Credentials );
+};
+app.get('/gets3credentials/:fileName', function(req, res) {
+  createS3Policy('image/png', function(s3Credentials) {
+    console.log(s3Credentials);
+    res.json(JSON.stringify(s3Credentials));
+  });
+});
 
 app.get('/svg', function(req, res) {
   throw new Error('fake error!');

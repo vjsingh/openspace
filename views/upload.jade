@@ -8,41 +8,21 @@ script(type='text/javascript', src='/javascripts/forms.js')
     .content-box.box-with-shadow
       form#uploadForm.form-horizontal.center-content(method='post', enctype="multipart/form-data", action='/transcriptions.json')
         fieldset
-          legend Upload a transcription
-          a(href='/Multiupload') New, multi-pdf uploader!
+          legend Upload a Poster
+          //a(href='/Multiupload') New, multi-pdf uploader!
           .control-group
             label.control-label(for='title') Title
             .controls
               input#uploadTitle.required.input(name='transcription[title]', value='', type='text', minlength='3')
           .control-group
-            label.control-label Artist
-            .controls
-              input.required(name='transcription[artist]', value='', type='text',  minlength='3')
-          .control-group
-            label.control-label Album
-            .controls
-              input.required(name='transcription[album]', value='', type='text')
-          .control-group
-            label.control-label Instrument
-            .controls
-              input.required(name='transcription[instrument]', value='', type='text')
-          .control-group
             label.control-label Description
             .controls
              textarea(name='transcription[description]', default='').
-          br
-          h5
-            | Please upload either a
           .control-group
-            label.control-label File (PDF)
+            label.control-label Picture
             .controls
-              input.fillone(type='file', name='transcription[file]', accept='pdf', fillone=true)
-          h5
-            | Or a
-          .control-group
-            label.control-label Link to page with transcription
-            .controls
-              input.fillone.url(type='text', name='transcription[url]', value='', fillone=true)
+              input(type='file', name='transcription[file]', accept='pdf', onchange='readUrl(this);')
+              img(id="imgPreview", src="#")
           #uploadDisclaimer
             | By Uploading, you agree to our
             a(href='/about') terms and conditions
@@ -51,3 +31,16 @@ script(type='text/javascript', src='/javascripts/forms.js')
             input.btn.btn-primary(type='submit', value='Upload')
             button.btn(type='reset') Cancel
 
+script(type='text/javascript')
+  $(function() {
+    console.log("AAA");
+    window.readUrl = function(input) {
+      if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+          $('#imgPreview').attr('src', e.target.result);
+        }
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
+  })

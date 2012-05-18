@@ -17,4 +17,6 @@ watch-less&
 PID=$!
 echo $PID > ./pid
 
+coffee --watch --join ./public/javascripts/project.js --compile ./public/cflib/*.coffee
+
 echo $BASHPID
