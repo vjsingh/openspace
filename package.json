@@ -1,7 +1,7 @@
 {
   "name": "Arter",
   "description": "Marketplace for student posters",
-  "version": "0.0.1-13",
+  "version": "0.0.1-14",
   "author": "Varun Singh <Varun_Singh@brown.edu>",
   "main": "./server.js",
   "scripts": {
@@ -28,7 +28,8 @@
     "connect-mongo": "0.1.x",
     "ua-parser": "0.2.x",
     "watch-less": "0.0.x",
-    "jquery": "1.6.x"
+    "jquery": "1.6.x",
+    "mime-magic": "0.2.x"
   },
   "subdomain": "postart"
 }

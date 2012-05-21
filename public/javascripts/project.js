@@ -3,12 +3,33 @@
   var EmailView, User, signup, user;
 
   User = Backbone.Model.extend({
-    validate: function(attrs) {
-      if (attrs.email) {
-        if (!attrs.email.length < 3) {
-          return 'Invalid Email';
+    validation: {
+      email: function(email) {
+        var lcEmail, re;
+        if (!email) {
+          return 'Invalid Email!';
+        }
+        re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        lcEmail = email.toLowerCase();
+        if (!re.test(email)) {
+          return "Invalid Email!";
+        }
+        if ((lcEmail.indexOf('brown.edu') < 0) && (lcEmail.indexOf('risd.edu') < 0)) {
+          return 'Must use a Brown or RISD email';
         }
       }
+    },
+    validateEmail: function(email) {
+      var lcEmail, re;
+      re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      lcEmail = email.toLowerCase();
+      if (!re.test(email)) {
+        return "Invalid Email!";
+      }
+      if ((lcEmail.indexOf('brown.edu') < 0) && (lcEmail.indexOf('risd.edu') < 0)) {
+        return 'Must use a Brown or RISD email';
+      }
+      return true;
     }
   });
 
@@ -16,44 +37,126 @@
 
   EmailView = Backbone.View.extend({
     initialize: function() {
-      _.bindAll(this, 'contentChanged');
-      return this.render();
+      this.render();
+      this.input = $("#emailForm > input");
+      return Backbone.Validation.bind(this, {
+        valid: function(view, attr, selector) {
+          var errorLabel;
+          view.$('[' + selector + '~=' + attr + ']').removeClass('invalid').removeAttr('data-error');
+          errorLabel = $('#' + attr + 'ErrorLabel');
+          if (errorLabel) {
+            return errorLabel.text('');
+          }
+        },
+        invalid: function(view, attr, error, selector) {
+          var errorLabel;
+          view.$('[' + selector + '~=' + attr + ']').addClass('invalid').attr('data-error', error);
+          errorLabel = $('#' + attr + 'ErrorLabel');
+          if (errorLabel) {
+            return errorLabel.text(error);
+          }
+        }
+      });
     },
-    render: function() {
+    setSignupPage: function(step) {
       var template;
-      template = _.template($('#emailTemplate').html(), {});
+      template = _.template($('#signup' + step + 'T').html(), {});
       return $(this.el).html(template);
     },
-    events: {
-      "click input[type=submit]": "submitEmail",
-      "change input.content": "contentChanged"
+    render: function() {
+      return this.setSignupPage(1);
     },
-    validateEmail: function(email) {
-      var lcEmail, re;
-      re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      lcEmail = email.toLowerCase();
-      return re.test(email) && ((lcEmail.indexOf('brown.edu') > -1) || (lcEmail.indexOf('risd.edu') > -1));
+    events: {
+      "click input[name=submitEmail]": "submitEmail",
+      "click input[name=submitName]": "submitName",
+      "keyup input": "inputChanged"
+    },
+    submitSuccessful: function(event) {
+      if (event.target.name === 'submitEmail') {
+        this.setSignupPage(2);
+      }
+      if (event.target.name === 'submitName') {
+        return this.setSignupPage(3);
+      }
     },
     submitEmail: function(event) {
-      var displayText;
       event.preventDefault();
-      displayText = '';
-      if (this.validateEmail($("#emailForm > input").val())) {
-        displayText = 'Valid Email!';
-      } else {
-        displayText = 'Invalid Email!';
+      if (this.model.isValid('email')) {
+        return this.setSignupPage(2);
       }
-      return $('#display').html(displayText);
     },
-    contentChanged: function(event) {
-      return console.log(event, event.currentTarget);
+    submitName: function(event) {
+      event.preventDefault();
+      if (this.model.isValid('name') && this.model.isValid('password') && this.model.isValid('password2') && this.model.isValid('username')) {
+        return this.setSignupPage(3);
+      }
+    },
+    inputChanged: function(event) {
+      var obj;
+      obj = {};
+      obj[event.target.name] = event.target.value;
+      return this.model.set(obj);
+    },
+    emailChanged: function(event) {
+      var email;
+      email = this.input.val();
+      return user.set({
+        email: email
+      });
+      /*
+          returned = user.set({email: email}, {
+            error: (model, error) ->
+              $('#errorDisplay').html(error)
+          })
+          if (returned)
+            $('#errorDisplay').html("")
+      */
+
     }
   });
 
   $('#uploadForm').hide();
 
   signup = new EmailView({
-    el: $('#signupContainer')
+    el: $('#signup'),
+    model: user
   });
+
+  /*
+  addBindings = (view, model) ->
+    events = view.events
+    el = $(view.el)
+    events['click input[type=submit]'] = 'submitForm'
+    inputs = []
+    for child in el.find('form').children()
+      if child.type != 'submit'
+        inputs.push(child)
+    for input in inputs
+        events['keyup input[name=' + input.name + ']'] = 'inputChanged'
+    console.log(view.numInputs)
+    view.inputChanged = (event) ->
+      value = event.target.value
+      name = event.target.name
+      obj = {}
+      obj[name] = value
+      returned = user.set(obj, {
+        error: (model, error) ->
+          event.target.isValid
+          $('#' + name + 'ErrorDisplay').html(error)
+      })
+      if (returned)
+        $('#' + name + 'ErrorDisplay').html('')
+    view.submitForm = (event) ->
+      #Button clicked, you can access the element that was clicked with event.currentTarget
+      event.preventDefault()
+      email = this.input.val()
+      returned = user.set({email: email}, {
+        error: (model, error) ->
+          $('#errorDisplay').html(error)
+      })
+      if (returned)
+        submitSuccessful(event)
+  */
+
 
 }).call(this);

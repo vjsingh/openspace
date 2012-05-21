@@ -1,0 +1,1 @@
+coffee --watch --join ./public/javascripts/project.js --compile ./public/cflib/*.coffee

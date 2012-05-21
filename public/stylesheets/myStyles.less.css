@@ -26,14 +26,20 @@ body {
   left: 20%;
   right: 80%;
 }
-#signup1 {
+#signup > .well {
   margin-top: 5%;
   margin-left: 25%;
   width: 30%;
 }
-#signup1 .signupText {
+#signup > .well .signupText {
   margin-top: 10px;
 }
-#signup1 #emailForm {
+#signup > .well #emailForm {
   margin-top: 20px;
+}
+#nameForm > input {
+  display: block;
+}
+input.invalid {
+  border-color: red;
 }
