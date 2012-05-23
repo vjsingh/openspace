@@ -41,8 +41,8 @@ function getIsFirefox(req) {
   return (/firefox/i).test(req.headers['user-agent']);
 }
 app.configure(function(){
-  //app.set('db-uri', 'mongodb://localhost/' + siteConf.dbName);
-  app.set('db-uri', 'mongodb://nodejitsu:be8725eaf1cb68e7a129cebf81f66480@staff.mongohq.com:10095/nodejitsudb992359367398');
+  app.set('db-uri', 'mongodb://localhost:27017/' + siteConf.dbName);
+  //app.set('db-uri', 'mongodb://nodejitsu:be8725eaf1cb68e7a129cebf81f66480@staff.mongohq.com:10095/nodejitsudb992359367398');
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
   // set pretty to false for editable fields in transcriptionDisplay
@@ -61,6 +61,10 @@ app.configure(function(){
 
   app.use(express.cookieParser());
   app.use(express.session({
+	secret: siteConf.sessionSecret
+}));
+/*
+  app.use(express.session({
     store: new mongoStore({
       db: "nodejitsudb992359367398",
       port: 10095,
@@ -71,6 +75,7 @@ app.configure(function(){
     secret: siteConf.sessionSecret,
     maxAge: new Date(Date.now() + 3600000)
   }));
+*/
   app.use(express.methodOverride());
   app.use(stylus.middleware({
     src: __dirname + '/public',
