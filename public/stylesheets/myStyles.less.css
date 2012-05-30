@@ -37,9 +37,15 @@ body {
 #signup > .well #emailForm {
   margin-top: 20px;
 }
-#nameForm > input {
-  display: block;
+#signup2 {
+  width: 50% !important;
 }
 input.invalid {
   border-color: red;
+}
+#nameForm > input.btn {
+  display: block;
+}
+.errorLabel {
+  display: inline;
 }

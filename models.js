@@ -91,9 +91,10 @@ function defineModels(mongoose, fn) {
     'email': { type: String, lowercase: true,  validate: [validatePresenceOf, 'an email is required'], index: { unique: true } },
     //'profPicLoc': {type: String}, //index: { unique: true}},
 
-    // Array of transcription ids
+    // Array of poster ids
     'upVotes': {type: [String], 'default': []},
     'downVotes': {type: [String], 'default': []},
+    'isArtist': {type: Boolean, 'default': false},
 
     'karmaPoints': {type: Number, 'default': 10},
     'personalWebsite': {type: String},

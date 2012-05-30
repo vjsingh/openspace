@@ -60,6 +60,11 @@ app.configure(function(){
   app.use(expressValidator);
 
   app.use(express.cookieParser());
+  /*
+  app.use(express.session({
+    secret: siteConf.sessionSecret
+  }));
+  */
   app.use(express.session({
     store: new mongoStore({
       db: "nodejitsudb992359367398",
@@ -441,7 +446,9 @@ app.get('/register', function(req, res) {
 });
 
 app.post('/register', function(req, res) {
-  var user = new User(req.body.user);
+  var user = req.body.user;
+  user.isArtist = true;
+  user = new User(user);
   var paramsToCheck = ['username', 'email', 'password'];
   paramsToCheck.forEach(function(v) {
     user[v] = sanitize(user[v]).trim();
@@ -450,22 +457,22 @@ app.post('/register', function(req, res) {
   check(user.email).isEmail();
 
 
-  function userSaveFailed() {
-    req.flash('error', 'Account creation failed');
-    res.render('register', {
-      locals: { user: user }
-    });
+  function userSaveFailed(err) {
+    console.log(err);
+    res.write('"failure"');
+    res.end();
   }
 
   user.registerTime = Date.now();
   user.save(function(err) {
-    if (err) return userSaveFailed();
+    if (err) return userSaveFailed(err);
 
     //req.flash('info', 'Your account has been created');
     //emails.sendWelcome(user);
 
     req.session.user_id = user.id;
-    res.redirect('/search');
+    res.write('"success"');
+    res.end();
   });
 });
 

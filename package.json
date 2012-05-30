@@ -1,7 +1,7 @@
 {
   "name": "Arter",
   "description": "Marketplace for student posters",
-  "version": "0.0.1-14",
+  "version": "0.0.1-17",
   "author": "Varun Singh <Varun_Singh@brown.edu>",
   "main": "./server.js",
   "scripts": {

@@ -41,6 +41,7 @@ html(class='no-js', lang='en')
     script
       GLBL = {};
     script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js')
+    script(src='/javascripts/jquery.min.js')
     script(type='text/javascript', src='/javascripts/underscore-1.3.1.js')
     script(type='text/javascript', src='/javascripts/backbone-0.9.1.js')
     script(type='text/javascript', src='/javascripts/backbone.validation.js')
@@ -81,7 +82,7 @@ html(class='no-js', lang='en')
           form#emailForm(enctype="text")
             input.required.input(name='email', placeholder='Enter Brown or RISD email', type='text', minlength='5')
             input.btn(type='submit', name='submitEmail', value='Start')
-          #emailErrorLabel
+            #emailErrorLabel
       script(type='text/template', id='signup2T')
         #signup2.well
           .row-fluid
@@ -92,10 +93,29 @@ html(class='no-js', lang='en')
             .span6
               form#nameForm(enctype="text")
                 input.required.input(name='name', placeholder='Full Name', type='text')
-                input.required.input(name='password', placeholder='Password', type='text')
-                input.required.input(name='password2', placeholder='Confirm Password', type='text')
+                #nameErrorLabel.errorLabel
+                input.required.input(name='password', placeholder='Password', type='password')
+                #passwordErrorLabel.errorLabel
+                input.required.input(name='password2', placeholder='Confirm Password', type='password')
+                #password2ErrorLabel.errorLabel
                 input.required.input(name='username', placeholder='Username', type='text')
+                #usernameErrorLabel.errorLabel
                 input.btn(type='submit', name='submitName', value='Go')
+      script(type='text/template', id='signup3T')
+        #signup3.well
+          .row-fluid
+            .span12
+              span.signupHeader Thanks!
+              #signupText
+      script(type='text/template', id='signingUp')
+        | Signing you up...
+      script(type='text/template', id='signupSucceeded')
+        | Success! You are signed up.
+      script(type='text/template', id='signupFailed')
+        | Signup Failed
+        form
+          input(id='tryAgainBtn', type='button', value='Try again?')
+
       form#uploadForm.form-horizontal.center-content(method='post', enctype="multipart/form-data", action='https://whitewalls.s3.amazonaws.com/')
         fieldset
           legend Upload a Poster
