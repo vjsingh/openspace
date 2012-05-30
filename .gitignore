@@ -1,0 +1,6 @@
+confirmIsLocal
+*.swp
+subscribers.txt
+pids
+.DS_Store
+node_modules
