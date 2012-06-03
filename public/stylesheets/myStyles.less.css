@@ -7,41 +7,49 @@ body {
   -moz-box-sizing: border-box;
   -ms-box-sizing: border-box;
   -webkit-box-sizing: border-box;
+	width: 100%;
 }
 #entire-page {
-  position: absolute;
   height: auto;
   bottom: 0;
   top: 0;
   left: 0;
   right: 0;
-  min-width: 940px;
+  min-width: 960px;
 }
 .signupHeader {
-  font-weight: bold;
+	margin-left: 0px;
 }
+
 #title {
   position: relative;
   margin-top: 20px;
-  left: 20%;
-  right: 80%;
+  left: 5%;
 }
+
 #signup > .well {
-  margin-top: 5%;
-  margin-left: 25%;
-  width: 30%;
+  margin-top: 20%;
+	width: 62%;
+	margin-left: 28%;
 }
+
 #signup > .well .signupText {
   margin-top: 10px;
 }
 #signup > .well #emailForm {
   margin-top: 20px;
 }
+<<<<<<< HEAD
 #signup2 {
   width: 50% !important;
+=======
+#nameForm > input {
+  display: block;
+
+>>>>>>> Basic styling
 }
 input.invalid {
-  border-color: red;
+  border-color: #FD4447;
 }
 #nameForm > input.btn {
   display: block;
