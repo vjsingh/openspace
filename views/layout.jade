@@ -39,7 +39,7 @@ html(class='no-js', lang='en')
     link(rel="stylesheet", href="css/main.css")
     link(rel="stylesheet", href="stylesheets/myStyles.less.css")
     link (href='http://fonts.googleapis.com/css?family=Abel|Lora:400,400italic|Wire+One' rel='stylesheet' type='text/css')
-    
+
 
     script
       GLBL = {};
@@ -79,21 +79,15 @@ html(class='no-js', lang='en')
       #signup
       script(type='text/template', id='signup1T')
         #signup1.well
-          span.signupHeader 
+          span.signupHeader
           <h1> Oh hey there
           .signupText
             <h3> | Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vehicula diam non turpis egestas vel facilisis leo posuere. Mauris tincidunt, quam at euismod imperdiet, metus orci viverra nunc, a volutpat velit purus lacinia orci. Nam faucibus felis vitae sapien dignissim dignissim. Vivamus vitae metus magna, eget auctor dui. Sed ac arcu et ante feugiat pretium at quis eros. Donec in arcu elit, eget commodo enim.
             </h3>
           form#emailForm(enctype="text")
-<<<<<<< HEAD
-            input.required.input(name='email', placeholder='Enter Brown or RISD email', type='text', minlength='5')
-            input.btn(type='submit', name='submitEmail', value='Start')
-            #emailErrorLabel
-=======
             input.required.input(name='email', placeholder='Enter Brown or RISD email' , type='text', minlength='5')
             input.btn(type='submit', name='submitEmail', value='Start', id='button')
           #emailErrorLabel
->>>>>>> Basic styling
       script(type='text/template', id='signup2T')
         #signup2.well
           .row-fluid

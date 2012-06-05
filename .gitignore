@@ -3,4 +3,4 @@ confirmIsLocal
 subscribers.txt
 pids
 .DS_Store
-node_modules
+node_modules/*
