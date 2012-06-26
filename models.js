@@ -12,24 +12,24 @@ function defineModels(mongoose, fn) {
     return v;
   }
 
-  // Model: Transcription
-  Transcription = new Schema({
-    'title': {type: String, index: true, 'default': 'Unknown'},
-    'album': {type: String, index: true, 'default': 'Unknown'},
-    'artist': {type: String, index: true, 'default': 'Unknown'},
-    'genre': {type: String, index: true, 'default': 'Unknown'},
-    'instrument': {type: String, index: true, 'default': 'Unknown'},
-    'description': {type: String, 'default': ''},
-    'infoLogStr': {type: String, 'default': '{}'},
+  // Model: Poster
+  Artwork = new Schema({
+    'name': {type: String, index: true, 'default': 'Unknown'},
+    'bucket': {type: String},
+    'key': {type: String, index: { unique: true }},
+    'etag': {type: String}, // From S3
+    's3Loc': {type: String}, 
     'uploadTime': {type: Number},
     'uploadDateStr': {type: String},
-    'fileLocation': {type: String},
-    'url': {type: String},
+    'versionNum': {type: Number, 'default': 1},
+    'isInReview': {type: Boolean, 'default': true},
     'upVotes': {type: Number, 'default': 0, set: changeNumVotes},
     'downVotes': {type: Number, 'default': 0, set: changeNumVotes},
     'votes': {type: Number},
-    'userId': {type: ObjectId, index: true}
+    'userId': {type: ObjectId, index: true},
+    '_userId' : { type: Schema.ObjectId, ref: 'User' }
   });
+
   // InfoLog Explained:
   // InfoLog stores a history of all changes
   // Its an array where each element is an obj with the state of the transcription during the last change
@@ -37,11 +37,11 @@ function defineModels(mongoose, fn) {
   // infoLogObj is what should be in the obj when saving
   // infoLog is a convenience method that calls JSON.parse on infoLogStr
 
-  Transcription.virtual('id')
+  Artwork.virtual('id')
     .get(function() {
       return this._id.toHexString();
   });
-  Transcription.virtual('infoLog')
+  Artwork.virtual('infoLog')
     .get(function() {
       return JSON.parse(this.infoLogStr);
   });
@@ -53,7 +53,7 @@ function defineModels(mongoose, fn) {
     var year = d.getFullYear();
     return month + '/' + day + '/' + year;
   }
-  Transcription.pre('save', function(next) {
+  Artwork.pre('save', function(next) {
     this.votes = this.upVotes - this.downVotes;
 
     // Convert to readable time
@@ -72,7 +72,7 @@ function defineModels(mongoose, fn) {
     next();
   });
   /*
-  Transcription.virtual('votes')
+  Artwork.virtual('votes')
     .get(function() {
       this.votes = this.upVotes - this.downVotes;
       return this.upVotes - this.downVotes;
@@ -227,7 +227,7 @@ function defineModels(mongoose, fn) {
   });
 
   // Create models
-  mongoose.model('Transcription', Transcription);
+  mongoose.model('Artwork', Artwork);
   mongoose.model('User', User);
   mongoose.model('LoginToken', LoginToken);
   mongoose.model('Bounty', Bounty);

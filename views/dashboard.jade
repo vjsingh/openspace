@@ -1,0 +1,11 @@
+h2 Artwork
+.container
+  - for (var artI in artwork)
+    .artworkContainer
+      - art = artwork[artI]
+      = art.name
+      img(src=art.s3Loc)
+      br
+      //| #{art.name}
+      //| name #{art.name}
+      //| url #{art.bucket} #{art.key}

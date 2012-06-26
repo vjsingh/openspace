@@ -185,8 +185,6 @@
     }
   });
 
-  $('#uploadForm').hide();
-
   signup = new EmailView({
     el: $('#signup'),
     model: user

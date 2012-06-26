@@ -17,9 +17,13 @@ var express = require('express'),
   path = require('path'),
   crypto = require('crypto'),
   mime = require('mime-magic'),
+  awssum = require('awssum'),
+  amazon = awssum.load('amazon/amazon'),
+  S3 = awssum.load('amazon/s3').S3,
   db,
-  Transcription, User, LoginToken, Bounty;
+  Artwork, User, LoginToken, Bounty;
   //routes = require('./routes')
+
 
 var sys = require('util');
 var exec = require('child_process').exec;
@@ -149,7 +153,7 @@ app.error(function(err, req, res, next) {
 });
 
 models.defineModels(mongoose, function() {
-    app.Transcription = Transcription = mongoose.model('Transcription');
+    app.Artwork = Artwork = mongoose.model('Artwork');
     app.User = User = mongoose.model('User');
     app.LoginToken = LoginToken = mongoose.model('LoginToken');
     app.Bounty = Bounty = mongoose.model('Bounty');
@@ -200,7 +204,7 @@ function getReadableTime(mill) {
 
 function member(req, res, next) {
   if (!req.currentUser) {
-      res.redirect('/register');
+      res.redirect('/signup');
   } else {
     next();
   }
@@ -245,13 +249,23 @@ var createS3Policy;
 var s3Signature;
 var s3Credentials;
 
-createS3Policy = function( mimetype, callback ) {
+var accountId = 'bd6ebc529ed9fca5dd8125b7cc91ff4642b6deb09a2633e6f1faddfcbf4b8410'
+var s3 = new S3({
+    accessKeyId: 'AKIAJSQCIZ6FUDJQJ4FQ',
+    secretAccessKey: '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',
+    'region': amazon.US_WEST_1
+});
+s3.ListBuckets(function(err, data) {
+    console.log(data);
+    console.log(data.Body.ListAllMyBucketsResult.Buckets);
+});
+createS3Policy = function( mimetype, artworkName, callback ) {
   var s3PolicyBase64, _date, _s3Policy;
   _date = new Date();
   var localTime = _date.getTime();
   var localOffset = _date.getTimezoneOffset() * 60000;
   _date = new Date(localTime + localOffset);
-  var redirect = ' ';
+  var redirect = 'http://localhost:3000/uploadSuccess?name=' + artworkName;
   s3Policy = {
     "expiration": "" + (_date.getFullYear()) + "-" + (_date.getMonth() + 1) + "-" + (_date.getDate()) + "T" + (_date.getHours() + 1) + ":" + (_date.getMinutes()) + ":" + (_date.getSeconds()) + "Z",
     "conditions": [
@@ -259,8 +273,8 @@ createS3Policy = function( mimetype, callback ) {
       //["starts-with", "$Content-Disposition", ""],
       ["starts-with", "$key", "to-review/"],
       { "acl": "public-read" },
-      //{ "success_action_redirect": redirect},
-      { "success_action_status": '201'},
+      { "success_action_redirect": redirect},
+      //{ "success_action_status": '201'},
       ["content-length-range", 0, 2147483648],
       ["eq", "$Content-Type", mimetype]
     ]
@@ -273,27 +287,36 @@ createS3Policy = function( mimetype, callback ) {
     s3PolicyBase64: s3PolicyBase64,
     s3Policy: s3Policy,
 
-    //s3Redirect: redirect,
-    s3RedirectStatus: '201',
+    s3Redirect: redirect,
+    //s3RedirectStatus: '201',
     s3Acl: "public-read",
     s3ContentType: mimetype,
-    s3Key: 'to-review/asdfa'
+    s3Key: 'to-review/test'
   };
   callback( s3Credentials );
 };
-app.get('/gets3credentials/:fileName', function(req, res) {
-  createS3Policy('image/png', function(s3Credentials) {
+
+app.get('/gets3credentials/:fileName/:artworkName', function(req, res) {
+  var fileName = req.params.fileName;
+  var artworkName = req.params.artworkName;
+  console.log("ASD", fileName, artworkName);
+  createS3Policy('image/png', artworkName, function(s3Credentials) {
     console.log(s3Credentials);
     res.json(JSON.stringify(s3Credentials));
   });
+});
+
+app.post('/asdf', function(req, res) {
+    console.log("ASDSADSA");
+    console.log(req);
 });
 
 app.get('/svg', function(req, res) {
   throw new Error('fake error!');
   res.render('svg', {layout: ''});
 });
-app.get('/', function(req, res) {
-  Transcription.count({}, function(err, trCount) {
+app.get('/', member, function(req, res) {
+  Artwork.count({}, function(err, trCount) {
     if (err) {
       throw new Error(err);
     }
@@ -310,14 +333,65 @@ app.get('/', function(req, res) {
     });
   });
 });
-app.get('/privacy', function(req, res) {
-  res.render('privacy');
-});
 
 app.get('/upload', member, function(req, res) {
   res.render('upload', {
   });
 });
+
+app.get('/uploadSuccess', function(req, res) {
+  var name = req.query.name;
+  var bucket = req.query.bucket;
+  var key = req.query.key;
+  var etag  = req.query.etag;
+  console.log(name, bucket, key, etag);
+  if (!name || !bucket || !key || !etag) {
+    console.log("ZQX Error in UploadSuccess");
+    return;
+  } else if (!req.currentUser) {
+    console.log("ZQX Error in UploadSuccess: User not logged in");
+    return;
+  }// else
+  var artwork = new Artwork({
+    name: name, 
+    key: key, 
+    etag: etag, 
+    bucket: bucket,
+    s3Loc: 'http://' + bucket + '.s3.amazonaws.com/' + key,
+    _userId: req.currentUser._id
+  });
+  artwork.save();
+  res.redirect('/dashboard');
+});
+
+app.get('/dashboard', member, function(req, res) {
+  Artwork.find({_userId: req.currentUser._id}, function(err, artwork) {
+    console.log(artwork[0]);
+    console.log(artwork[0].name);
+    for (var prop in artwork[0]) {
+        console.log(prop);
+}
+    res.render('dashboard', {
+      artwork: artwork
+    });
+  });;
+});
+
+app.get('/review', member, function(req, res) {
+  Artwork.find({}, function(err, arts) {
+    res.render('review', {
+      arts: arts
+    });
+  });;
+});
+
+app.get('/signup', function(req, res) {
+    res.render('signup', {});
+});
+app.get('/privacy', function(req, res) {
+  res.render('privacy');
+});
+
 app.get('/about', function(req, res) {
   res.render('about');
 });
@@ -405,7 +479,7 @@ app.get('/fillBounty', member, function(req, res) {
 app.post('/fillBounty/:bId', member, function(req, res) {
   var bId = req.params.bId;
   var trId = req.body.trId;
-  Transcription.findById(trId, function(err, tr) {
+  Artwork.findById(trId, function(err, tr) {
     if (!tr) {
       res.json('INVALID_TRANSCRIPTION');
     } else {
@@ -621,7 +695,7 @@ app.get('/confirmBountyTr/:isCorrect/:bId', function(req, res) {
 
 // Sessions
 app.get('/login', function(req, res) {
-  res.render('login.jade');
+  res.render('login', {});
 });
 
 app.post('/checkValidLogin', function(req, res) {
@@ -659,7 +733,7 @@ app.post('/login', function(req, res) {
     res.end();
   }
   function loginSucceed() {
-    res.redirect('/browse');
+    res.redirect('/');
     res.end();
   }
   if (!req.body.user || !req.body.user.username || !req.body.user.password) {
@@ -1379,19 +1453,21 @@ function makeEmailList() {
     });
   });
 }
+console.log("ASD");
 makeEmailList();
+/*
 Transcription.find({title: 'Unknown'}, function(err, trs) {
   trs.forEach(function(tr) {
     if (tr.title === 'Unknown') {
       tr.title = tr.fileLocation;
     }
     tr.save();
-    /*
+    /
     if (!tr.uploadTime) {
       tr.uploadTime = 1327262166151;
       tr.save();
     }
-    */
+    /
   });
 });
 User.find({}, function(err, users) {
@@ -1402,3 +1478,4 @@ User.find({}, function(err, users) {
     }
   });
 });
+*/

@@ -7,7 +7,12 @@ body {
   -moz-box-sizing: border-box;
   -ms-box-sizing: border-box;
   -webkit-box-sizing: border-box;
-	width: 100%;
+  width: 100%;
+}
+iframe {
+  position: absolute;
+  top: 300px;
+  left: 100px;
 }
 #entire-page {
   height: auto;
@@ -18,35 +23,26 @@ body {
   min-width: 960px;
 }
 .signupHeader {
-	margin-left: 0px;
+  margin-left: 0px;
 }
-
 #title {
   position: relative;
   margin-top: 20px;
   left: 5%;
 }
-
 #signup > .well {
   margin-top: 20%;
-	width: 62%;
-	margin-left: 28%;
+  width: 62%;
+  margin-left: 28%;
 }
-
 #signup > .well .signupText {
   margin-top: 10px;
 }
 #signup > .well #emailForm {
   margin-top: 20px;
 }
-<<<<<<< HEAD
 #signup2 {
   width: 50% !important;
-=======
-#nameForm > input {
-  display: block;
-
->>>>>>> Basic styling
 }
 input.invalid {
   border-color: #FD4447;
@@ -56,4 +52,8 @@ input.invalid {
 }
 .errorLabel {
   display: inline;
+}
+.artworkContainer {
+  border: 5px solid black;
+  margin-top: 20px;
 }

@@ -5,8 +5,13 @@
 </script>
 <script>
 top.GLOBAL_sendFormData = function() {
-  console.log("ASD");
+  // Must send form from this iFrame, otherwise we'll get a redirect
+  // The file input isn't copied with clone, so have to move the actual div
+  // http://stackoverflow.com/questions/415483/clone-a-file-input-element-in-javascript
   $('#uploadForm', window.parent.document).clone().appendTo('body');
+  var inputFileDiv = $('#uploadFile', window.parent.document);
+  $('#uploadFile', window.document).remove();
+  inputFileDiv.appendTo($('#uploadForm', window.document));
   //document.body.uploadForm.submit();
   $('#uploadForm').submit();
 }

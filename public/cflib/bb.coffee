@@ -131,7 +131,7 @@ EmailView = Backbone.View.extend({
     ###
 })
 
-$('#uploadForm').hide()
+#$('#uploadForm').hide()
 signup = new EmailView({
   el: $('#signup')
   model: user
