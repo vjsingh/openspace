@@ -1,0 +1,1 @@
+<h2>Log In</h2><p><a href="/signup" class="button">Create an account &rarr;</a></p><form id="login" method="post" action="/login" class="users"><!--!=partial('loginFields', { locals: { user: user } })--><div><label for="remember_me">Remember me:</label><input id="remember_me" type="checkbox" name="remember_me"/></div><div><input type="submit" value="Log In"/></div></form>

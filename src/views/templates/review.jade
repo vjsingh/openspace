@@ -1,0 +1,12 @@
+h2 Review
+.container
+  .allArtworkContainer
+    //- for (var artI in arts)
+      .artworkContainer
+        - art = arts[artI]
+        = art.name
+        img(src=art.s3Loc)
+        br
+        //| #{art.name}
+        //| name #{art.name}
+        //| url #{art.bucket} #{art.key}

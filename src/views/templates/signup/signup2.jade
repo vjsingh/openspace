@@ -1,0 +1,17 @@
+#signup2.well
+  .row-fluid
+    .span6
+      span.signupHeader Privacy Policy
+      .signupText
+        | Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vehicula diam non turpis egestas vel facilisis leo posuere. Mauris tincidunt, quam at euismod imperdiet, metus orci viverra nunc, a volutpat velit purus lacinia orci. Nam faucibus felis vitae sapien dignissim dignissim. Vivamus vitae metus magna, eget auctor dui. Sed ac arcu et ante feugiat pretium at quis eros. Donec in arcu elit, eget commodo enim.
+    .span6
+      form#nameForm(enctype="text")
+        input.required.input(name='name', placeholder='Full Name', type='text')
+        #nameErrorLabel.errorLabel
+        input.required.input(name='password', placeholder='Password', type='password')
+        #passwordErrorLabel.errorLabel
+        input.required.input(name='password2', placeholder='Confirm Password', type='password')
+        #password2ErrorLabel.errorLabel
+        input.required.input(name='username', placeholder='Username', type='text')
+        #usernameErrorLabel.errorLabel
+        input.btn(type='submit', name='submitName', value='Go')

@@ -1,0 +1,12 @@
+<script type="text/javascript" src="/javascripts/forms.js"></script><div class="row-fluid"><div class="center-content width70"><div class="content-box box-with-shadow"><h2>Register</h2><form id="register" method="post" action="/register" class="form-horizontal users"><fieldset><legend>Enter your details to create an account</legend><div class="control-group"><label for="username" class="control-label">Username</label><div class="controls"><input id="regUsername" name="user[username]" type="text" placeholder="Username" minlength="3" loginRegex="loginRegex" remote="/checkUsername/" class="xlarge required"/><span class="help-block">No spaces or punctuation, only letters and numbers</span></div></div><div class="control-group"><label for="email" class="control-label">Email</label><div class="controls"><input id="email" name="user[email]" type="email" placeholder="Enter your email address" remote="/checkEmail/" class="xlarge required"/><span class="help-block">We'll send you an email to confirm this!</span></div></div><div class="control-group"><label for="password" class="control-label">Password</label><div class="controls"><input id="regPassword" name="user[password]" placeholder="Choose a password" type="password" minlength="5" class="xlarge required"/></div></div><div class="control-group"><label for="password2" class="control-label">Confirm</label><div class="controls"><input id="password2" name="password2" placeholder="Confirm Password" type="password" equalTo="#regPassword" class="xlarge required"/></div></div><div class="actions"><input type="submit" value="Create Account" class="btn primary"/><button type="reset" class="btn">Cancel</button></div></fieldset></form><!--<script type="text/javascript">$('#login').validate({
+  highlight: function(element, errClass) {
+    $(element).popover('show');
+  },
+  unhighlight: function(element, errClass) {
+    $(element).popover('hide');
+  },
+  errorPlacement: function(err, element) {
+    err.hide();
+  }
+}).form();
+</script>--></div></div></div>

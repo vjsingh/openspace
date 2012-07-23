@@ -1,0 +1,33 @@
+// Validate
+//script(type='text/javascript', src='/javascripts/forms.js')
+
+form#uploadForm.form-horizontal.center-content(method='post', enctype="multipart/form-data", action='https://whitewalls.s3.amazonaws.com/')
+  fieldset
+    legend Upload a Poster
+    //a(href='/Multiupload') New, multi-pdf uploader!
+    input(id='s3_policy', name='policy', type='hidden')
+    input(id='s3_key', name='key', type='hidden')
+    input(id='s3_AWSAccessKeyId', name='AWSAccessKeyId', type='hidden')
+    input(id='s3_acl', name='acl', type='hidden')
+    input(id='s3_success_action_redirect', name='success_action_redirect', type='hidden')
+    //input(id='s3_success_action_status', name='success_action_status', type='hidden')
+    input(id='s3_signature', name='signature', type='hidden')
+    input(id='s3_Content-Type', name='Content-Type', type='hidden')
+    //
+      <input type="hidden" name="key" value="uploads/${filename}">
+      <input type="hidden" name="AWSAccessKeyId" value="YOUR_AWS_ACCESS_KEY">
+      <input type="hidden" name="acl" value="private">
+      <input type="hidden" name="success_action_redirect" value="http://localhost/">
+      <input type="hidden" name="policy" value="YOUR_POLICY_DOCUMENT_BASE64_ENCODED">
+      <input type="hidden" name="signature" value="YOUR_CALCULATED_SIGNATURE">
+      <input type="hidden" name="Content-Type" value="image/jpeg">
+    //.control-group
+      // MUST BE LAST!
+      //label.control-label(for='uploadFile') File
+      //.controls
+    input#artworkName.required.input(type='text')
+    input#uploadFile.required.input(name='file', type='file')
+    .actions
+      input.btn.btn-primary(type='submit', value='Upload', id='submitBtn2')
+      button.btn(type='reset') Cancel
+

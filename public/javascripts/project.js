@@ -128,6 +128,7 @@
     },
     setSignupPage: function(step) {
       var template;
+      console.log("in setSignupPage");
       template = _.template($('#signup' + step + 'T').html(), {});
       return $(this.el).html(template);
     },
@@ -190,6 +191,10 @@
     model: user
   });
 
+  console.log("ASD");
+
+  signup.render();
+
   /*
   addBindings = (view, model) ->
     events = view.events
@@ -226,5 +231,63 @@
         submitSuccessful(event)
   */
 
+
+  console.log("ASDASD in uploade.coffee");
+
+  $(function() {
+    var addIframe, checkForSubmit;
+    console.log("ASDASD in uploade.coffee");
+    addIframe = function() {
+      var subframe;
+      $("iframe").remove();
+      subframe = document.createElement("iframe");
+      document.body.appendChild(subframe);
+      return subframe.src = "iframe.html";
+    };
+    addIframe();
+    checkForSubmit = function() {
+      var timeout;
+      return timeout = setInterval(function() {
+        console.log($("iframe"));
+        if ($("iframe").contents().length === 0) {
+          clearInterval(timeout);
+          return addIframe();
+        }
+      }, 100);
+    };
+    return $("#submitBtn2").click(function(event) {
+      var fileName;
+      console.log("ASDASDSADSAD");
+      event.preventDefault();
+      fileName = $("#uploadFile").val().replace(/C:\\fakepath\\/i, "");
+      console.log(fileName);
+      return $.ajax({
+        url: "/gets3credentials/" + fileName + "/" + artworkName,
+        dataType: "text",
+        success: function(res, status) {
+          console.log(res);
+          return;
+          if (res === "fail") {
+            console.log("FAIL");
+            return;
+          }
+          res = JSON.parse(JSON.parse(res));
+          console.log(res);
+          $("#s3_AWSAccessKeyId").val(res.s3KeyId);
+          $("#s3_signature").val(res.s3Signature);
+          $("#s3_policy").val(res.s3PolicyBase64);
+          $("#s3_success_action_redirect").val(res.s3Redirect);
+          $("#s3_key").val(res.s3Key);
+          $("#s3_acl").val(res.s3Acl);
+          $("#s3_Content-Type").val(res.s3ContentType);
+          $("#uploadForm").submit();
+          return checkForSubmit();
+        },
+        error: function(res, status, error) {
+          return console.log("error", res, status, error);
+        }
+      });
+    });
+  });
 
 }).call(this);

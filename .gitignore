@@ -1,6 +1,6 @@
-confirmIsLocal
+server/confirmIsLocal
 *.swp
-subscribers.txt
-pids
+server/subscribers.txt
+sever/pids
 .DS_Store
-node_modules/*
+server/node_modules/*

@@ -1,2 +1,0 @@
-cd ./dev
-node-dev app.dev.js

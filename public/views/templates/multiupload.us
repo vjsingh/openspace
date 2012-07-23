@@ -1,0 +1,16 @@
+<!-- Validate--><!--script(type='text/javascript', src='/javascripts/forms.js')--><!-- File uploader--><script type="text/javascript" src="/lib/file-uploader/client/fileuploader.js"></script><link rel="stylesheet" href="/lib/file-uploader/client/fileuploader.css"/><div class="row-fluid"><!--.span6.offset2 TODO when bs fixes--><!--.span6.center-content--><div class="center-content width50"><div class="content-box box-with-shadow"><!--#uploadForm.form-horizontal.center-content(method='post', enctype="multipart/form-data", action='/transcriptions.json')-->Drag and drop files, or click to upload!<div id="file-uploader"></div><!--<div id="uploadForm" class="form-horizontal center-content"><fieldset><legend>Upload Multiple Transcriptions</legend><div class="control-group"><label class="control-label">File (PDF)</label><div class="controls"><input type="file" name="transcription[file]" accept="pdf" fillone="fillone" multiple="" class="fillone"/></div></div><div id="uploadDisclaimer">By Uploading, you agree to our<a href="/about">terms and conditions</a></div><div class="actions"><input type="submit" value="Upload" class="btn primary"/><button type="reset" class="btn">Cancel</button></div></fieldset></div>--></div></div></div><script type="text/javascript">$(function() {
+  var uploader = new qq.FileUploader({
+    //element: $('#uploadForm'),
+    element: $('#file-uploader')[0],
+    action: '/multipletranscriptions',
+    encoding: 'multipart',
+    allowedExtensions: ['pdf'],
+    params: {
+      title: 'Unknown',
+      artist: 'Unknown',
+      album: 'Unknown',
+      instrument: 'Unknown',
+      description: ''
+    }
+  });
+});</script>

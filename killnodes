@@ -1,9 +1,11 @@
 #!/bin/bash
 echo "The following node processes were found:"
 ps aux | grep " node " | grep -v grep
-nodepids=$(ps aux | grep " node \|./start" | grep -v grep | cut -c10-15)
+nodepids=$(ps aux | grep " node \|./start" | grep -v grep | cut -c16-21)$(ps aux | grep "watchr" | grep -v grep | cut -c16-21)$(ps aux | grep "jade:compile" | grep -v grep | cut -c16-21)
 
 echo "OK, so we will stop these process/es now..."
+echo $nodepids
+echo "ASD"
 
 for nodepid in ${nodepids[@]}
 do

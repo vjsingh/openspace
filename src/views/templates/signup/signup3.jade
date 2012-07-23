@@ -1,0 +1,15 @@
+#signup3.well
+  .row-fluid
+    .span12
+      span.signupHeader Thanks!
+      #signupText
+
+//
+  script(type='text/template', id='signingUp')
+  | Signing you up...
+  script(type='text/template', id='signupSucceeded')
+  | Success! You are signed up.
+  script(type='text/template', id='signupFailed')
+  | Signup Failed
+  form
+    input(id='tryAgainBtn', type='button', value='Try again?')
