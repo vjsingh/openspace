@@ -79,6 +79,10 @@ define(['jquery', 'underscore', 'backbone', 'handlebars', 'templates', 'jqueryUn
         if (errorLabel)
           errorLabel.text(error)
     })
+
+    # Watch for changes in less files
+    less.env = 'development'; # Forces refresh on @import changes
+    less.watch()
     return app
 )
 

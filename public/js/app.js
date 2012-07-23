@@ -80,6 +80,8 @@ define((require) ->
         }
       }
     });
+    less.env = 'development';
+    less.watch();
     return app;
   });
 

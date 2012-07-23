@@ -6,14 +6,15 @@ Install Node
 
 npm install -g jade vogue coffee-script watchr tplcpl uglify-js nodewatch
 
-If you ever get a 'module not found' error, just run npm install -g <module_name>
-
-install the CLI utility watch (http://sveinbjorn.org/watch_macosx). We use it run the jade compilation every 2 seconds since there is no watcher available.
+If you ever get a 'module \<module\> not found' error, just run npm install -g \<module_name\>
 
 ## Developing
 To run the local server, just run ./runServer
-Then, simply run ./watchFiles in a terminal, and all source files will be compiled as you save them!
-./stop is a handy helper script to kill all started process (Warning: its the jankiest of the janky, could very well be killing random process on your system, although it works fine on mine. Feel free to improve)
+Then, simply run ./watchFiles in a terminal, and all source files will be compiled as you save them! 
+* Notes:
+    If a file is not being changed, you must first run ./watchFiles and then save the file
+    The script occasionally runs into errors. If it does, just run it again
+Less files should be automatically updated in the browser (if not, let me know).
 
 ## Project filetree
 src has all of our src code. Its split up into js (coffeescript), css (less), and views (jade).  
