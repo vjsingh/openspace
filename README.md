@@ -12,9 +12,12 @@ Note:If you ever get a 'module \<module\> not found' error, just run npm install
 ## Developing
 To run the local server, just run ./runServer.
 Then, simply run ./watchFiles in a separate terminal, and all source files will be compiled as you save them! 
-* Notes:
-    If a file is not being changed, you must first run ./watchFiles and then save the file
-    The script occasionally runs into errors. If it does, just run it again
+
+Notes:
+
+* If a file is not being changed, you must first run ./watchFiles and then save the file
+* The script occasionally runs into errors. If it does, just run it again
+
 Less files should be automatically updated in the browser (if not, let me know).
 
 ## Project filetree
