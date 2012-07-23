@@ -4,13 +4,14 @@
 
 Install Node
 
+Run this from the command line:
 npm install -g jade vogue coffee-script watchr tplcpl uglify-js nodewatch
 
-If you ever get a 'module \<module\> not found' error, just run npm install -g \<module_name\>
+Note:If you ever get a 'module \<module\> not found' error, just run npm install -g \<module_name\>
 
 ## Developing
-To run the local server, just run ./runServer
-Then, simply run ./watchFiles in a terminal, and all source files will be compiled as you save them! 
+To run the local server, just run ./runServer.
+Then, simply run ./watchFiles in a separate terminal, and all source files will be compiled as you save them! 
 * Notes:
     If a file is not being changed, you must first run ./watchFiles and then save the file
     The script occasionally runs into errors. If it does, just run it again
