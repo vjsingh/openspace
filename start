@@ -1,0 +1,18 @@
+#!/bin/bash
+
+#watchr -e 'watch("./app/stylesheets/src/.less$") { |f| system("lessc #{f[0]} > $(echo #{f[0]} | cut -d\. -f1).css && echo \"#{f[0]} > $(echo #{f[0]} | cut -d\. -f1).css \" ") }'
+#watchr -e 'watch(".*\.less$") { |f| system("lessc #{f[0]} > #{f[0]}.css && echo \"#{f[0]} > #{f[0]}.css\" ") }'
+
+# Only watching stylesheets dir syntax is somehow wrong
+#watchr -e 'watch("(./app/stylesheets/*)\.less$") { |f| system(" echo \"found file\"; filename=#{f[0]};filename=\"${filename##*/}\"; outPath=\"./static/css/$filename\"; lessc #{f[0]} > \"$outPath.css\" && echo \"#{f[0]} > $outPath.css\" ") }' &
+#watchr -e 'watch(".*\.less$") { |f| system(" echo \"found file\"; filename=#{f[0]};filename=\"${filename##*/}\"; outPath=\"./static/css/$filename\"; lessc #{f[0]} > \"$outPath.css\" && echo \"#{f[0]} > $outPath.css\" ") }' &
+#watchr -e 'watch(".*\.less$") { |f| system(" pushd \"./app/stylesheets/\"; echo \"found file\"; filepath=\"./app/stylesheets/styles.less\";filename=\"${filepath##*/}\"; echo $filepath; echo $filename; outPath=\"./static/css/$filename\"; echo \"$filepath > $outPath.css\" && lessc $filepath > \"$outPath.css\" popd;") }' &
+
+# When any of the less files changes, only compile/update styles.less since that includes everything
+#watchr -e 'watch(".*\.less$") { |f| system(" pushd \"./src/css/\"; echo \"found file\"; filepath=\"./styles.less\";filename=\"${filepath##*/}\"; echo $filepath; echo $filename; outPath=\"../../public/css/$filename\"; echo \"$filepath > $outPath.css\" && lessc $filepath > \"$outPath.css\"; popd;") }' &
+
+# Watch and compile jade and underscore
+#watch cake jade:compile &
+cake watch
+
+#vogue&
