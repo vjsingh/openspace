@@ -33,7 +33,7 @@ task 'watch', 'watches for changes in source files', ->
       invoke 'jade:compile'
     else if ext == 'less'
       console.log("updating less")
-      exec 'cp -r ./src/css ./public'
+      #exec 'cp -r ./src/css ./public'
     else if ext == 'coffee'
       # Compile all coffeescript files
       console.log "Updating Coffeescript"
